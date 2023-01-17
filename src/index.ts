@@ -4,9 +4,8 @@ import routes from './routes/index';
 const app = express();
 const port = 3000;
 
-
 app.use('/', routes);
- 
-app.listen(port, ()=> {
-  console.log(`server started at localhost:${port}`)
+
+app.listen(port, () => {
+  console.log(`server started at localhost:${port}`);
 });
