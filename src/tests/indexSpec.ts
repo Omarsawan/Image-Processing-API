@@ -11,12 +11,14 @@ describe('Test endpoint responses', () => {
     fs.rmSync(output_path, { recursive: true, force: true });
     fs.mkdirSync(output_path);
   });
+
   it('gets the process endpoint without width and height successfully', async () => {
     const response = await request.get('/process').query({
-      filename: 'fjord',
+      filename: 'fjord'
     });
     expect(response.status).toBe(200);
   });
+
   it('gets the process endpoint successfully', async () => {
     const response = await request.get('/process').query({
       filename: 'fjord',

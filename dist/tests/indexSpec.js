@@ -28,7 +28,7 @@ describe('Test endpoint responses', () => {
     });
     it('gets the process endpoint without width and height successfully', () => __awaiter(void 0, void 0, void 0, function* () {
         const response = yield request.get('/process').query({
-            filename: 'fjord',
+            filename: 'fjord'
         });
         expect(response.status).toBe(200);
     }));
