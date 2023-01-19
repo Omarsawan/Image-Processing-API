@@ -39,10 +39,9 @@ routes.get('/resize', validate, async (req: Request, res: Response) => {
     res.sendFile(out);
   } catch (error: unknown) {
     if (error instanceof Error) {
-        res.status(400).send(error.message.split(':')[0]);
-    }
-    else{
-        res.status(500).send('Internal error, please try again');
+      res.status(400).send(error.message.split(':')[0]);
+    } else {
+      res.status(500).send('Internal error, please try again');
     }
   }
 });

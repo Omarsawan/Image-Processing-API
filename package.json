@@ -20,6 +20,7 @@
     "@types/lodash": "^4.14.191",
     "@types/node": "^18.11.18",
     "@types/sharp": "^0.31.1",
+    "@types/supertest": "^2.0.12",
     "eslint": "^8.32.0",
     "eslint-config-prettier": "^8.6.0",
     "eslint-plugin-prettier": "^4.2.1",
@@ -33,6 +34,7 @@
     "jasmine": "^4.5.0",
     "jasmine-spec-reporter": "^7.0.0",
     "lodash": "^4.17.21",
-    "sharp": "^0.31.3"
+    "sharp": "^0.31.3",
+    "supertest": "^6.3.3"
   }
 }
