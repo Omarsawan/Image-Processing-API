@@ -6,24 +6,15 @@ const resize = async (
   width: number,
   height: number
 ): Promise<string> => {
-  const input = 
-    path.join(__dirname,
-      '..',
-      '..',
-      'images',
-      filename + '.jpg'
-    )
-  ;
-  const output =
-    path.join(__dirname,
-      '..',
-      '..',
-      'images',
-      'output',
-      filename + '_' + width + '_' + height + '.jpg'
-    )
-  ;
-
+  const input = path.join(__dirname, '..', '..', 'images', filename + '.jpg');
+  const output = path.join(
+    __dirname,
+    '..',
+    '..',
+    'images',
+    'output',
+    filename + '_' + width + '_' + height + '.jpg'
+  );
   await sharp(input).resize(width, height).toFile(output);
   return output;
 };
