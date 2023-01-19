@@ -1,10 +1,10 @@
 import sharp from 'sharp';
 import path from 'path';
 
-const resize = async (
+const process = async (
   filename: string,
-  width: number,
-  height: number
+  width: number | undefined,
+  height: number | undefined
 ): Promise<string> => {
   const input = path.join(__dirname, '..', '..', 'images', filename + '.jpg');
   const output = path.join(
@@ -15,8 +15,12 @@ const resize = async (
     'output',
     filename + '_' + width + '_' + height + '.jpg'
   );
-  await sharp(input).resize(width, height).toFile(output);
+  if (width == undefined && height == undefined) {
+    await sharp(input).toFile(output);
+  } else {
+    await sharp(input).resize(width, height).toFile(output);
+  }
   return output;
 };
 
-export default resize;
+export default process;

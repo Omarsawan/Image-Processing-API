@@ -11,8 +11,14 @@ describe('Test endpoint responses', () => {
     fs.rmSync(output_path, { recursive: true, force: true });
     fs.mkdirSync(output_path);
   });
-  it('gets the resize endpoint successfully', async () => {
-    const response = await request.get('/resize').query({
+  it('gets the process endpoint without width and height successfully', async () => {
+    const response = await request.get('/process').query({
+      filename: 'fjord',
+    });
+    expect(response.status).toBe(200);
+  });
+  it('gets the process endpoint successfully', async () => {
+    const response = await request.get('/process').query({
       filename: 'fjord',
       width: '50',
       height: '300'
@@ -21,7 +27,7 @@ describe('Test endpoint responses', () => {
   });
 
   it('test sending invalid file name to the reisze  api', async () => {
-    const response = await request.get('/resize').query({
+    const response = await request.get('/process').query({
       filename: 'invalid',
       width: '50',
       height: '300'
@@ -31,7 +37,7 @@ describe('Test endpoint responses', () => {
   });
 
   it('test sending invalid width to the reisze  api', async () => {
-    const response = await request.get('/resize').query({
+    const response = await request.get('/process').query({
       filename: 'invalid',
       width: 'abc',
       height: '300'
@@ -41,7 +47,7 @@ describe('Test endpoint responses', () => {
   });
 
   it('test sending invalid height to the reisze  api', async () => {
-    const response = await request.get('/resize').query({
+    const response = await request.get('/process').query({
       filename: 'invalid',
       width: '50',
       height: 'cde'
@@ -51,7 +57,7 @@ describe('Test endpoint responses', () => {
   });
 
   it('test sending width with decimal point to the reisze api', async () => {
-    const response = await request.get('/resize').query({
+    const response = await request.get('/process').query({
       filename: 'invalid',
       width: '50.5',
       height: '300'
@@ -63,7 +69,7 @@ describe('Test endpoint responses', () => {
   });
 
   it('test sending height with decimal point to the reisze api', async () => {
-    const response = await request.get('/resize').query({
+    const response = await request.get('/process').query({
       filename: 'invalid',
       width: '50',
       height: '300.2'

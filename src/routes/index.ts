@@ -1,10 +1,14 @@
 import express from 'express';
 import { Request, Response, NextFunction } from 'express';
-import resize from '../utilities/imageProcess';
+import process from '../utilities/imageProcess';
 
 const routes = express.Router();
 
 const validate = (req: Request, res: Response, next: NextFunction): void => {
+  if (req.query.width == undefined && req.query.height == undefined) {
+    next();
+    return;
+  }
   const width = +(req.query.width as string);
   const height = +(req.query.height as string);
   if (isNaN(width)) {
@@ -29,12 +33,12 @@ const validate = (req: Request, res: Response, next: NextFunction): void => {
   }
   next();
 };
-routes.get('/resize', validate, async (req: Request, res: Response) => {
+routes.get('/process', validate, async (req: Request, res: Response) => {
   try {
-    const out = await resize(
+    const out = await process(
       req.query.filename as string,
-      +(req.query.width as string),
-      +(req.query.height as string)
+      req.query.width == undefined ? undefined : +(req.query.width as string),
+      req.query.height == undefined ? undefined : +(req.query.height as string)
     );
     res.sendFile(out);
   } catch (error: unknown) {
