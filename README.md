@@ -50,7 +50,7 @@ npm run prettierts
 
 ## API
 
-#### GET /resize?filename=name&width=10&height=10
+#### GET /resize?filename=fjord&width=50&height=300
 - width is optional number (integer)
 - height is optional number (integer)
 - filename is required string for a file that should exists in the project
