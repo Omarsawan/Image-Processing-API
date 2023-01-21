@@ -59,6 +59,7 @@ const process = (filename, width, height) =>
       filename + '_' + width + '_' + height + '.jpg'
     );
     if (fs_1.default.existsSync(output)) {
+      // Image is already processed before with the same width/height
       return output;
     }
     if (width == undefined && height == undefined) {

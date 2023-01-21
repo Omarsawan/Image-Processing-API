@@ -42,6 +42,7 @@ const supertest_1 = __importDefault(require('supertest'));
 const index_1 = __importDefault(require('../index'));
 const fs_1 = __importDefault(require('fs'));
 const path_1 = __importDefault(require('path'));
+const imageProcess_1 = __importDefault(require('../utilities/imageProcess'));
 const request = (0, supertest_1.default)(index_1.default);
 describe('Test endpoint responses', () => {
   afterEach(function () {
@@ -65,7 +66,7 @@ describe('Test endpoint responses', () => {
       });
       expect(response.status).toBe(200);
     }));
-  it('gets the process endpoint successfully', () =>
+  it('gets the process endpoint with width and height successfully', () =>
     __awaiter(void 0, void 0, void 0, function* () {
       const response = yield request.get('/process').query({
         filename: 'fjord',
@@ -74,7 +75,7 @@ describe('Test endpoint responses', () => {
       });
       expect(response.status).toBe(200);
     }));
-  it('test sending invalid file name to the reisze  api', () =>
+  it('test sending invalid file name to the process api', () =>
     __awaiter(void 0, void 0, void 0, function* () {
       const response = yield request.get('/process').query({
         filename: 'invalid',
@@ -84,7 +85,7 @@ describe('Test endpoint responses', () => {
       expect(response.status).toBe(400);
       expect(response.text).toBe('Input file is missing');
     }));
-  it('test sending invalid width to the reisze  api', () =>
+  it('test sending invalid width to the process api', () =>
     __awaiter(void 0, void 0, void 0, function* () {
       const response = yield request.get('/process').query({
         filename: 'invalid',
@@ -94,7 +95,7 @@ describe('Test endpoint responses', () => {
       expect(response.status).toBe(400);
       expect(response.text).toBe('Width is not a valid number');
     }));
-  it('test sending invalid height to the reisze  api', () =>
+  it('test sending invalid height to the process api', () =>
     __awaiter(void 0, void 0, void 0, function* () {
       const response = yield request.get('/process').query({
         filename: 'invalid',
@@ -104,7 +105,7 @@ describe('Test endpoint responses', () => {
       expect(response.status).toBe(400);
       expect(response.text).toBe('Height is not a valid number');
     }));
-  it('test sending width with decimal point to the reisze api', () =>
+  it('test sending width with decimal point to the process api', () =>
     __awaiter(void 0, void 0, void 0, function* () {
       const response = yield request.get('/process').query({
         filename: 'invalid',
@@ -116,7 +117,7 @@ describe('Test endpoint responses', () => {
         'Width must be integer, it should not have decimal point'
       );
     }));
-  it('test sending height with decimal point to the reisze api', () =>
+  it('test sending height with decimal point to the process api', () =>
     __awaiter(void 0, void 0, void 0, function* () {
       const response = yield request.get('/process').query({
         filename: 'invalid',
@@ -127,5 +128,43 @@ describe('Test endpoint responses', () => {
       expect(response.text).toBe(
         'Height must be integer, it should not have decimal point'
       );
+    }));
+});
+describe('Test for sharp image processing', () => {
+  afterEach(function () {
+    return __awaiter(this, void 0, void 0, function* () {
+      const output_path = path_1.default.join(
+        __dirname,
+        '..',
+        '..',
+        'images',
+        'output'
+      );
+      // Clean the output directory
+      fs_1.default.rmSync(output_path, { recursive: true, force: true });
+      fs_1.default.mkdirSync(output_path);
+    });
+  });
+  it('Process an image without resizing it', () =>
+    __awaiter(void 0, void 0, void 0, function* () {
+      const output = yield (0, imageProcess_1.default)(
+        'fjord',
+        undefined,
+        undefined
+      );
+      expect(output).toContain('fjord_undefined_undefined');
+      expect(fs_1.default.existsSync(output)).toBeTruthy();
+    }));
+  it('Process an image and resize it', () =>
+    __awaiter(void 0, void 0, void 0, function* () {
+      const output = yield (0, imageProcess_1.default)('fjord', 20, 30);
+      expect(output).toContain('fjord_20_30');
+      expect(fs_1.default.existsSync(output)).toBeTruthy();
+    }));
+  it('Process a non-existing image and should throw error', () =>
+    __awaiter(void 0, void 0, void 0, function* () {
+      yield expectAsync(
+        (0, imageProcess_1.default)('invalid', 20, 30)
+      ).toBeRejected();
     }));
 });
