@@ -33,6 +33,7 @@ const validate = (req: Request, res: Response, next: NextFunction): void => {
   }
   next();
 };
+
 routes.get('/process', validate, async (req: Request, res: Response) => {
   try {
     const out = await process(

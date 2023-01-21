@@ -1,5 +1,6 @@
 import sharp from 'sharp';
 import path from 'path';
+import fs from 'fs';
 
 const process = async (
   filename: string,
@@ -15,6 +16,10 @@ const process = async (
     'output',
     filename + '_' + width + '_' + height + '.jpg'
   );
+  if (fs.existsSync(output)) {
+    // Image is already processed before with the same width/height
+    return output;
+  }
   if (width == undefined && height == undefined) {
     await sharp(input).toFile(output);
   } else {
